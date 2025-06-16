@@ -77,6 +77,7 @@ class ParenthesisValidator {
                 if(!isMatching(top, ch)) return false;
             }
         }
+        // Stack should be empty if all brackets matched
         return charStack.isEmpty();
     }
     
