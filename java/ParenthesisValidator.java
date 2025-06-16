@@ -53,41 +53,48 @@ Stack is empty → ✅ Valid
 
  **/
 
-public class ParenthesisValidator {
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
 
-    public static boolean isValid(String expression) {
-        Stack<Character> stack = new Stack<>();
-
-        for (char ch : expression.toCharArray()) {
-            // If it's an opening bracket, push to stack
-            if (ch == '(' || ch == '{' || ch == '[') {
-                stack.push(ch);
+class ParenthesisValidator {
+    
+    private static boolean isValid(String parenthesis){
+        int parLen = parenthesis.length();
+        Stack<Character> charStack = new Stack<>();
+        
+        if(parenthesis.isEmpty()) return false;
+        
+        for(int i = 0; i<parLen; i++){
+            char ch = parenthesis.charAt(i);
+            if(ch == '(' || ch == '{' || ch == '['){
+                charStack.push(ch);
             }
-            // If it's a closing bracket, check for match
-            else if (ch == ')' || ch == '}' || ch == ']') {
-                if (stack.isEmpty()) return false;
-
-                char top = stack.pop();
-                if (!isMatchingPair(top, ch)) return false;
+            if(ch == ')' || ch == '}' || ch == ']'){
+                if(charStack.isEmpty()) return false;
+                
+                char top = charStack.pop();
+                
+                if(!isMatching(top, ch)) return false;
             }
         }
-
-        // Stack should be empty if all brackets matched
-        return stack.isEmpty();
+        return charStack.isEmpty();
     }
-
-    // Helper method to match opening and closing brackets
-    private static boolean isMatchingPair(char open, char close) {
-        return (open == '(' && close == ')') ||
-               (open == '{' && close == '}') ||
-               (open == '[' && close == ']');
+    
+    public static boolean isMatching(char top, char ch){
+        return (
+            (top == '(' && ch == ')') || 
+            (top == '{' && ch == '}') || 
+            (top == '[' && ch == ']')
+            );
     }
-
+    
+    
     public static void main(String[] args) {
-        String test1 = "{[()]}";
-        String test2 = "{[}]()";
-
-        System.out.println(test1 + " is valid: " + isValid(test1));  // true
-        System.out.println(test2 + " is valid: " + isValid(test2));  // false
+        String parenthesis = "[{()}][][]{{}}{)";
+        if(isValid(parenthesis)){
+            System.out.println("Valid");
+        }else{
+            System.out.println("Invalid");
+        }
     }
 }
